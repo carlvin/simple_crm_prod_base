@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.views.generic import (
     TemplateView,ListView,CreateView,DeleteView,DetailView,UpdateView
 )
+from client_relationship_manager.forms import CreateClientForm
 
 from client_relationship_manager.models import Client
 # Create your views here.

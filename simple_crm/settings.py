@@ -37,8 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_htmx',
     'django_htmx_refresh',
-    'client_relationship_manger',
+    'client_relationship_manager',
 ]
 
 # This setting is used by HtmxResponseMiddleware
