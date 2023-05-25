@@ -25,33 +25,27 @@
 <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' class="bg-primary-2">
     <!-- navigation -->
     <nav class="bg-gray-800">
-      <div class="container mx-auto py-4">
-        <a href="{% url 'crm:index' %}" class="text-white text-xl font-bold">Simple Crm</a>
-      </div>
+        <div class="container mx-auto">
+            <a href="{% url 'crm:index' %}">Simple Crm</a>
+        </div>
     </nav>
-    
     <!-- Breadcrumbs  -->
-    
-<div class="flex" aria-label="Breadcrumb">
-    <ol class="inline-flex items-center space-x-1 md:space-x-3">
-      {% block breadcrumbs %}
-        
-      {% endblock breadcrumbs %}
-    </ol>
-</div>
-  
-    
+    <div id="breadcrumbs">
+        <ol>
+            {% block breadcrumbs %}
+
+            {% endblock breadcrumbs %}
+        </ol>
+    </div>
     <!-- messages  -->
     <div id="messages"></div>
-    
     <!-- HtmxCanvas -->
-    <main id="htmxCanvas" class="container mx-auto py-8">
-      {% block canvas %}
-    
-      {% endblock canvas %}
+    <main id="htmxCanvas">
+        {% block canvas %}
+
+        {% endblock canvas %}
     </main>
-  </body>
-  
-  
+
+</body>
 
 </html>

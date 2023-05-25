@@ -15,3 +15,7 @@ class Client(models.Model):
     
     def get_success_url(self):
         return reverse_lazy("")
+
+    def get_absolute_url(self):
+        return reverse_lazy("crm:detail-client", kwargs={"pk": self.pk})
+    

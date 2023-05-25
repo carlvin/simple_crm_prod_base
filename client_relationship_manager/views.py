@@ -51,6 +51,10 @@ class CreateClientView(CreateView):
 
 class DetailClientView(DetailView):
     template_name = "detail_client.html"
+    
+    def get_queryset(self) -> QuerySet[Any]:
+        queryset = Client.objects.all()
+        return queryset
 
 class UpdateClientView(UpdateView):
     template_name = "update_client.html"
