@@ -25,10 +25,11 @@ class HomeView(ListView):
 
 class SearchResultView(ListView):
     template_name = "search_results.html" 
+    context_object_name = "results"
 
     def get_queryset(self) :
 
-        query = self.request.GET.get("q")
+        query = self.request.GET.get("q") or None
 
         if query:
             results = Client.objects.filter(
@@ -51,7 +52,7 @@ class CreateClientView(CreateView):
 
 class DetailClientView(DetailView):
     template_name = "detail_client.html"
-    
+
     def get_queryset(self) -> QuerySet[Any]:
         queryset = Client.objects.all()
         return queryset
