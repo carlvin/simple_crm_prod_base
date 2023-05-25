@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Dict
 from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.db.models import Q
@@ -10,9 +10,18 @@ from django.views.generic import (
 from client_relationship_manager.forms import CreateClientForm
 
 from client_relationship_manager.models import Client
+
+
 # Create your views here.
 class HomeView(ListView):
     template_name = "index.html"
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        return super().get_context_data(**kwargs)
+    
+    def get_queryset(self) -> QuerySet[Any]:
+        queryset = Client.objects.all()
+        return queryset
 
 class SearchResultView(ListView):
     template_name = "search_results.html" 
