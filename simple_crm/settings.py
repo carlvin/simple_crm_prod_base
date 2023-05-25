@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'django_htmx',
     'django_htmx_refresh',
     'client_relationship_manager',
+
+    'crispy_forms',
+    'crispy_tailwind',
 ]
 
 # This setting is used by HtmxResponseMiddleware
@@ -139,3 +142,6 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
+
+CRISPY_TEMPLATE_PACK = "tailwind"

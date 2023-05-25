@@ -48,7 +48,7 @@ class CreateClientView(CreateView):
 
     def get_success_url(self) -> str:
         messages.success(self.request,"Client Created")
-        return reverse_lazy("")
+        return reverse_lazy("crm:index")
 
 class DetailClientView(DetailView):
     template_name = "detail_client.html"
@@ -61,6 +61,10 @@ class UpdateClientView(UpdateView):
     template_name = "update_client.html"
     form_class = "UpdatClientForm" 
 
+    def get_queryset(self) -> QuerySet[Any]:
+        queryset = Client.objects.get()
+        return queryset
+
     def get_success_url(self) -> str:
         messages.success(self.request,"Client Updated")
         return reverse_lazy("crm:detail_client")
@@ -68,6 +72,10 @@ class UpdateClientView(UpdateView):
 
 class DeleteClientView(DeleteView):
     template_name = "delete_client.html" 
+
+    def get_queryset(self) -> QuerySet[Any]:
+        queryset = Client.objects.all()
+        return queryset
 
     def get_success_url(self) -> str:
         messages.success(self.request,"Client Deleted.")
