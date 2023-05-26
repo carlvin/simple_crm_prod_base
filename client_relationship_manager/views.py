@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.views.generic import (
     TemplateView,ListView,CreateView,DeleteView,DetailView,UpdateView
 )
-from client_relationship_manager.forms import CreateClientForm
+from client_relationship_manager.forms import CreateClientForm, UpdateClientForm
 
 from client_relationship_manager.models import Client
 
@@ -52,6 +52,7 @@ class CreateClientView(CreateView):
 
 class DetailClientView(DetailView):
     template_name = "detail_client.html"
+    context_object_name = "client"
 
     def get_queryset(self) -> QuerySet[Any]:
         queryset = Client.objects.all()
@@ -59,10 +60,10 @@ class DetailClientView(DetailView):
 
 class UpdateClientView(UpdateView):
     template_name = "update_client.html"
-    form_class = "UpdatClientForm" 
+    form_class = UpdateClientForm 
 
     def get_queryset(self) -> QuerySet[Any]:
-        queryset = Client.objects.get()
+        queryset = Client.objects.all()
         return queryset
 
     def get_success_url(self) -> str:
