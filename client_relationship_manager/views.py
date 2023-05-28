@@ -39,6 +39,7 @@ class SearchResultView(ListView):
                 | Q(address__icontains=query)
                 | Q(email__icontains=query)
             )
+        
 
         return results
 

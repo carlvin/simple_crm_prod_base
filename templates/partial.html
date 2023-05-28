@@ -4,9 +4,9 @@
     {% endblock title %}
 </title>
 <!-- breadcrumbs  -->
-<div id="breadcumbs" class " " hx-swap-oob="true">
-    <ol>
-        {% block breadcrumbs %}
+<div id="breadcrumbs" class="flex" aria-label="Breadcrumb" hx-swap-oob="true">
+    <ol class="inline-flex items-center space-x-1 md:space-x-3">
+      {% block breadcrumbs %}
 
         {% endblock breadcrumbs %}
     </ol>
