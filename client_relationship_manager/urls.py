@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import(
-     CreateClientView,HomeView,SearchResultView,
+     CreateClientView,HomeView, RtnDeviceDetail, RtnDeviceView,SearchResultView,
      UpdateClientView,DeleteClientView,DetailClientView
 )
 
@@ -14,4 +14,6 @@ urlpatterns = [
     path('<int:pk>/update/',UpdateClientView.as_view(),name='update-client'),
     path('<int:pk>/delete/',DeleteClientView.as_view(),name='delete-client'),
     
+    path('returned_device',RtnDeviceView.as_view(),name='returned-device'),
+    path('<int:pk>/returned_device_detail/',RtnDeviceDetail.as_view(),name='detail-returned-device'),
 ]

@@ -9,7 +9,7 @@ from django.views.generic import (
 )
 from client_relationship_manager.forms import CreateClientForm, UpdateClientForm
 
-from client_relationship_manager.models import Client
+from client_relationship_manager.models import Client, Device
 
 
 # Create your views here.
@@ -24,6 +24,7 @@ class HomeView(ListView):
         return queryset
 
 class SearchResultView(ListView):
+    
     template_name = "search_results.html" 
     context_object_name = "results"
 
@@ -39,7 +40,8 @@ class SearchResultView(ListView):
                 | Q(address__icontains=query)
                 | Q(email__icontains=query)
             )
-        
+        else:
+            results = Client.objects.all()
 
         return results
 
@@ -82,3 +84,22 @@ class DeleteClientView(DeleteView):
     def get_success_url(self) -> str:
         messages.success(self.request,"Client Deleted.")
         return reverse_lazy("crm:index")
+
+class RtnDeviceView(ListView):
+    template_name="rtnDevice/returned_device.html"
+    context_object_name="rtndevices"
+    
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        return super().get_context_data(**kwargs)
+    
+    def get_queryset(self) -> QuerySet[Any]:
+        queryset= Device.objects.all()
+        return queryset
+    
+class RtnDeviceDetail(DetailView):
+    template_name = "rtnDevice/returned_detail_device.html"
+    context_object_name = "rtndevices"
+
+    def get_queryset(self) -> QuerySet[Any]:
+        queryset = Device.objects.all()
+        return queryset

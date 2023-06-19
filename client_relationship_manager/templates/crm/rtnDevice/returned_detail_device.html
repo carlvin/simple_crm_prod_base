@@ -1,6 +1,6 @@
 {% extends base_template %}
 {% block title %}
-  Simple CRM | Client Detail
+  Simple CRM | Returned Device Detail
 {% endblock title %}
 
 {% block breadcrumbs %}
@@ -42,67 +42,25 @@
 
 {% block canvas %}
   
-<!-- <section class="w-75 mx-auto">
-    <div class="row">
-        <div class="col">
-            <h2>Detail Client #{{ object.id }}</h2>
-        </div>
-        <div class="col-3 text-center">
-            <a
-                class="btn btn-success"
-                hx-get="{% url 'crm:update-client' object.id %}"
-                hx-target="#htmxCanvas"
-                hx-push-url="true"
-                role="button"
-            >
-                Update
-            </a>
-            <a
-                class="btn btn-danger"
-                hx-get="{% url 'crm:delete-client' object.pk %}"
-                hx-target="#htmxCanvas"
-                hx-push-url="true"
-                role="button"
-            >
-                Delete
-            </a>
-        </div>
-    </div>
-    <div class="row bg-light">
-        <div class="col">
-            <p><b>Name:</b> {{ object.name }}</p>
-        </div>
-        <div class="col">
-            <p><b>Phone #:</b> {{ object.phone }}</p>
-        </div>
-    </div>
-    <div class="row bg-light">
-        <div class="col">
-            <p><b>Address:</b> {{ object.address }}</p>
-        </div>
-        <div class="col">
-            <p><b>E-mail:</b> {{ object.email }}</p>
-        </div>
-    </div>
-</section> -->
-
 
 <section class="bg-white dark:bg-gray-900">
     <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
-        <h2 class="mb-2 text-xl font-semibold leading-none text-gray-900 md:text-2xl dark:text-white">Detail Client #{{ object.id }}</h2>
-        <p class="mb-4 text-xl font-extrabold leading-none text-gray-900 md:text-2xl dark:text-white">{{ object.name }}</p>
+        <h2 class="mb-2 text-xl font-semibold leading-none text-gray-900 md:text-2xl dark:text-white">Device #{{ object.id }}</h2>
+        <p class="mb-4 text-xl font-extrabold leading-none text-gray-900 md:text-2xl dark:text-white">{{ object.serial }}: {{ object.name }}</p>
         <dl>
-            <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Address</dt>
-            <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">Standard glass ,3.8GHz 8-core 10th-generation Intel Core i7 processor, Turbo Boost up to 5.0GHz, 16GB 2666MHz DDR4 memory, Radeon Pro 5500 XT with 8GB of GDDR6 memory, 256GB SSD storage, Gigabit Ethernet, Magic Mouse 2, Magic Keyboard - US.</dd>
+            <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Description</dt>
+            <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">
+                {{ object.faultDescription}}    
+            </dd>
         </dl>
         <dl class="flex items-center space-x-6">
             <div>
-                <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Phone</dt>
-                <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">{{ object.phone }}</dd>
+                <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Site</dt>
+                <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">{{ object.siteName }}</dd>
             </div>
             <div>
-                <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Email</dt>
-                <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">{{ object.email }}</dd>
+                <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Technician</dt>
+                <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">{{ object.technician }}</dd>
             </div>
         </dl>
         <div class="flex items-center space-x-4">

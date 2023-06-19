@@ -22,17 +22,18 @@
     {% endblock js %}
 </head>
 
-<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' class="bg-primary-2">
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' class="bg-primary-2 dark:bg-gray-900">
     <!-- navigation -->
-    <nav class="bg-gray-800">
-      <div class="container mx-auto py-4">
+    <nav class="bg-gray-800 ">
+      <div class="container mx-auto py-4 mb-2">
         <a href="{% url 'crm:index' %}" class="text-white text-xl font-bold">Simple Crm</a>
+        <a href="{% url 'crm:returned-device' %}" class="text-white text-xl font-bold">return device</a>
       </div>
     </nav>
     
     <!-- Breadcrumbs  -->
     
-<div class="flex" aria-label="Breadcrumb">
+<div id="breadcrumbs class="flex" aria-label="Breadcrumb">
     <ol class="inline-flex items-center space-x-1 md:space-x-3">
       {% block breadcrumbs %}
         
