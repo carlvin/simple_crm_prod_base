@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-h*wprd2xbt#!jq#rrkr_ww2h(md#=bm&a0ok4h!tp(081%+6)6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','localhost',]
 
 
 # Application definition
@@ -62,7 +62,7 @@ MIDDLEWARE = [
     'django_htmx_refresh.middleware.HtmxResponseMiddleware',
 ]
 
-ROOT_URLCONF = 'simple_crm.urls'
+ROOT_URLCONF = 'config.urls'
 
 # BASE_TEMPLATES_DIR = BASE_DIR / 'templates'
 
@@ -71,7 +71,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            BASE_DIR / 'templates',
+            BASE_DIR / '../templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
