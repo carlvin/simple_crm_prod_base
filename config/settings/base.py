@@ -15,6 +15,8 @@ from pathlib import Path
 my_variable =os.environ.get('DJANGO_SETTINGS_MODULE')
 print(f"By:Carlvin:: This is the Module setting running:{ my_variable }")
 
+print(os.environ.get('SECRET_KEY'))
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
