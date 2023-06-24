@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 
+my_variable =os.environ.get('DJANGO_SETTINGS_MODULE')
+print(f"This is the Module setting running:{ my_variable }")
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 

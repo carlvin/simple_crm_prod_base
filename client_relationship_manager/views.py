@@ -1,5 +1,7 @@
 from typing import Any, Dict
+from django.views import View
 from django.db.models.query import QuerySet
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.db.models import Q
 from django.urls import reverse_lazy
@@ -10,7 +12,13 @@ from django.views.generic import (
 from client_relationship_manager.forms import CreateClientForm, UpdateClientForm
 
 from client_relationship_manager.models import Client, Device
+from config import settings
 
+
+class SettingsModuleView(View):
+    def get(self,request):
+        return HttpResponse(f"Current settings module: {settings.SETTINGS_MODULE}")
+    
 
 # Create your views here.
 class HomeView(ListView):
