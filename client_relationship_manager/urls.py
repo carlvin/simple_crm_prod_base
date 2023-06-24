@@ -17,5 +17,5 @@ urlpatterns = [
     path('returned_device',RtnDeviceView.as_view(),name='returned-device'),
     path('<int:pk>/returned_device_detail/',RtnDeviceDetail.as_view(),name='detail-returned-device'),
     
-    path('settings-module/',SettingsModuleView.as_view(),name='setting-module')
+    # path('settings-module/',SettingsModuleView.as_view(),name='setting-module')
 ]
