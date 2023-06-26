@@ -201,7 +201,7 @@ Simple CRM | Home Page
                 </div>
             </div>
             <div class="overflow-x-auto">
-                {% if object_list %}
+                {% if clients %}
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
 
@@ -218,7 +218,7 @@ Simple CRM | Home Page
                     </thead>
                     <tbody>
 
-                        {% for client in object_list %}
+                        {% for client in clients %}
                         <tr hx-get="{{ client.get_absolute_url }}" hx-target="#htmxCanvas" hx-push-url="true"
                             class="hover hover:text-blue-400 border-b dark:border-gray-700">
                             <th scope="row"
