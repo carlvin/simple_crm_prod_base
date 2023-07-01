@@ -5,7 +5,7 @@ my_variable =os.environ.get('DJANGO_SETTINGS_MODULE')
 print(f"By:Carlvin:: This is the Module setting running:{ my_variable }")
 
 # Get the value of an environmental variable
-#secret_key = os.environ.get('SECRET_KEY')
+secret_key = os.environ.get('SECRET_KEY')
 
 # Check if the environmental variable exists and retrieve its value
 if secret_key:
@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-h*wprd2xbt#!jq#rrkr_ww2h(md#=bm&a0ok4h!tp(081%+6)6'
+#SECRET_KEY = 'django-insecure-h*wprd2xbt#!jq#rrkr_ww2h(md#=bm&a0ok4h!tp(081%+6)6'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
