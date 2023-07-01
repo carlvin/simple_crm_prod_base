@@ -5,7 +5,7 @@ my_variable =os.environ.get('DJANGO_SETTINGS_MODULE')
 print(f"By:Carlvin:: This is the Module setting running:{ my_variable }")
 
 # Get the value of an environmental variable
-secret_key = os.environ.get('SECRET_KEY')
+#secret_key = os.environ.get('SECRET_KEY')
 
 # Check if the environmental variable exists and retrieve its value
 if secret_key:
