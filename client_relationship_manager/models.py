@@ -1,8 +1,23 @@
 from django.db import models
+from django.db.models.signals import post_save
+from django.contrib.auth.models import AbstractUser
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
+
+class User(AbstractUser):
+    pass
+
+class UserProfile(models.Model):
+    user = models.OneToOneField("User", verbose_name=_("User Profile"), on_delete=models.CASCADE)
+    
+    def __str__(self) -> str:
+        return f'{self.user.username}'
+
+class Agent(models.Model):
+    user=models.OneToOneField("User", verbose_name=_("Agent"), on_delete=models.CASCADE)
+    organisation = models.ForeignKey('UserProfile', related_name='organisation', on_delete=models.CASCADE)
 
 class Client(models.Model):
     name = models.CharField(max_length=240)
@@ -38,3 +53,9 @@ class Device(models.Model):
     def get_absolute_url(self):
         return reverse_lazy("crm:detail-returned-device", kwargs={"pk": self.pk})
     
+    
+def post_user_created_signal(sender,instance,created,**kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+        
+post_save.connect(post_user_created_signal,sender=User)

@@ -6,16 +6,25 @@ from django.shortcuts import render
 from django.db.models import Q
 from django.urls import reverse_lazy
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (
     TemplateView,ListView,CreateView,DeleteView,DetailView,UpdateView
 )
-from client_relationship_manager.forms import CreateClientForm, UpdateClientForm
+from client_relationship_manager.forms import CreateClientForm, CustomUserCreationForm, UpdateClientForm
 
 from client_relationship_manager.models import Client, Device
 
+class SignupView(CreateView):
+    template_name = "registration/signup.html"
+    form_class = CustomUserCreationForm
+    
+    def get_success_url(self) -> str:
+        messages.success(self.request,"User Created")
+        return reverse_lazy("login")      
+
 
 # Create your views here.
-class HomeView(ListView):
+class HomeView(LoginRequiredMixin,ListView):
     template_name = "index.html"
     context_object_name = "clients"
 
@@ -26,7 +35,7 @@ class HomeView(ListView):
         queryset = Client.objects.all()
         return queryset
 
-class SearchResultView(ListView):
+class SearchResultView(LoginRequiredMixin,ListView):
     
     template_name = "search_results.html" 
     context_object_name = "results"
@@ -48,7 +57,7 @@ class SearchResultView(ListView):
 
         return results
 
-class CreateClientView(CreateView):
+class CreateClientView(LoginRequiredMixin,CreateView):
     template_name ="create_client.html" 
     form_class = CreateClientForm
 
@@ -56,7 +65,7 @@ class CreateClientView(CreateView):
         messages.success(self.request,"Client Created")
         return reverse_lazy("crm:index")
 
-class DetailClientView(DetailView):
+class DetailClientView(LoginRequiredMixin,DetailView):
     template_name = "detail_client.html"
     context_object_name = "client"
 
@@ -64,7 +73,7 @@ class DetailClientView(DetailView):
         queryset = Client.objects.all()
         return queryset
 
-class UpdateClientView(UpdateView):
+class UpdateClientView(LoginRequiredMixin,UpdateView):
     template_name = "update_client.html"
     form_class = UpdateClientForm 
 
@@ -77,7 +86,7 @@ class UpdateClientView(UpdateView):
         return reverse_lazy("crm:detail_client")
 
 
-class DeleteClientView(DeleteView):
+class DeleteClientView(LoginRequiredMixin,DeleteView):
     template_name = "delete_client.html" 
 
     def get_queryset(self) -> QuerySet[Any]:
@@ -88,7 +97,7 @@ class DeleteClientView(DeleteView):
         messages.success(self.request,"Client Deleted.")
         return reverse_lazy("crm:index")
 
-class RtnDeviceView(ListView):
+class RtnDeviceView(LoginRequiredMixin,ListView):
     template_name="rtnDevice/returned_device.html"
     context_object_name="rtndevices"
     
@@ -99,7 +108,7 @@ class RtnDeviceView(ListView):
         queryset= Device.objects.all()
         return queryset
     
-class RtnDeviceDetail(DetailView):
+class RtnDeviceDetail(LoginRequiredMixin,DetailView):
     template_name = "rtnDevice/returned_detail_device.html"
     context_object_name = "rtndevices"
 

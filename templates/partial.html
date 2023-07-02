@@ -3,6 +3,13 @@
 
     {% endblock title %}
 </title>
+
+<div id="topnav" hx-swap-oob="innerHTML:topnav">
+
+    {% block topnav %}
+    
+    {% endblock topnav %}
+</div>
 <!-- breadcrumbs  -->
 <div id="breadcrumbs" class="flex" aria-label="Breadcrumb" hx-swap-oob="true">
     <ol class="inline-flex items-center space-x-1 md:space-x-3">
