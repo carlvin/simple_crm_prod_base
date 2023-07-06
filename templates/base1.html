@@ -30,7 +30,7 @@
         }
 
         .container {
-            height: calc(100vh - 180px); /* Adjust the value based on your footer height */
+            height: calc(100vh - 140px); /* Adjust the value based on your footer height */
             overflow-y: auto;
         }
     </style>
@@ -61,8 +61,8 @@
         {% endblock canvas %}
     </main>
 
-    <footer class="p-4 bg-white md:p-6 lg:p-8 dark:bg-gray-800">
-        {% include "footer.html" %}
+    <footer class="bg-white dark:bg-gray-800">
+        {% include "partials/footer.html" %}
     </footer>
 
 </body>

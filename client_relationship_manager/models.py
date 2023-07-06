@@ -18,6 +18,12 @@ class UserProfile(models.Model):
 class Agent(models.Model):
     user=models.OneToOneField("User", verbose_name=_("Agent"), on_delete=models.CASCADE)
     organisation = models.ForeignKey('UserProfile', related_name='organisation', on_delete=models.CASCADE)
+    
+    def __str__(self) -> str:
+        return f'{self.user.email}'
+    
+    def get_absolute_url(self):
+        return reverse_lazy("agents:detail-agent", kwargs={"pk": self.pk})
 
 class Client(models.Model):
     name = models.CharField(max_length=240)
@@ -56,6 +62,6 @@ class Device(models.Model):
     
 def post_user_created_signal(sender,instance,created,**kwargs):
     if created:
-        UserProfile.objects.create(user=instance)
+        UserProfile.objects.create(user=instance) 
         
 post_save.connect(post_user_created_signal,sender=User)

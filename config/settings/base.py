@@ -40,8 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_htmx',
     'django_htmx_refresh',
+    
     'client_relationship_manager',
-
+    'agents',
+    
     'crispy_forms',
     'crispy_tailwind',
 ]
@@ -49,6 +51,7 @@ INSTALLED_APPS = [
 # This setting is used by HtmxResponseMiddleware
 HTMX_APPS = [
         'crm',
+        'agents',
     ]
 
 MIDDLEWARE = [
