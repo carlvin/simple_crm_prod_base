@@ -7,7 +7,8 @@ from django.utils.translation import gettext_lazy as _
 # Create your models here.
 
 class User(AbstractUser):
-    pass
+    is_organisor = models.BooleanField(_("Organisor"),default=True)
+    is_agent = models.BooleanField(_("Agent"),default=False)
 
 class UserProfile(models.Model):
     user = models.OneToOneField("User", verbose_name=_("User Profile"), on_delete=models.CASCADE)
@@ -17,7 +18,7 @@ class UserProfile(models.Model):
 
 class Agent(models.Model):
     user=models.OneToOneField("User", verbose_name=_("Agent"), on_delete=models.CASCADE)
-    organisation = models.ForeignKey('UserProfile', related_name='organisation', on_delete=models.CASCADE)
+    organisation = models.ForeignKey('UserProfile', related_name='agent_organisation', on_delete=models.CASCADE)
     
     def __str__(self) -> str:
         return f'{self.user.email}'
@@ -31,6 +32,8 @@ class Client(models.Model):
     address = models.CharField(max_length=300)
     email = models.EmailField(max_length=240)
     date_created = models.DateTimeField(auto_now_add=True)
+    organisation = models.ForeignKey('UserProfile', related_name='client_organisation', on_delete=models.CASCADE)
+
 
     def __str__(self) -> str:
         return f'{self.name}'

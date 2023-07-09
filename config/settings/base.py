@@ -1,32 +1,38 @@
 import os
 from pathlib import Path
+import environ
 
-my_variable =os.environ.get('DJANGO_SETTINGS_MODULE')
-print(f"By:Carlvin:: This is the Module setting running:{ my_variable }")
-
-# Get the value of an environmental variable
-secret_key = os.environ.get('SECRET_KEY')
-
-# Check if the environmental variable exists and retrieve its value
-if secret_key:
-    print(f"The SECRET_KEY is: {secret_key}")
-else:
-    print("SECRET_KEY is not set.")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
+env = environ.Env(
+    DEBUG=(bool, False)
+)
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-h*wprd2xbt#!jq#rrkr_ww2h(md#=bm&a0ok4h!tp(081%+6)6'
+READ_DOT_ENV_FILE = env.bool("READ_DOT_ENV_FILE",default=False)
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if READ_DOT_ENV_FILE:
+    environ.Env.read_env(
+        BASE_DIR / "../.env"
+    )
 
-ALLOWED_HOSTS = ['127.0.0.1','localhost',]
+# my_variable = env('DJANGO_SETTINGS_MODULE')
+# print(f"By:Carlvin:: This is the Module setting running:{ my_variable }")
+# # Get the value of an environmental variable
+DEBUG = env('DEBUG')
+SECRET_KEY = env('SECRET_KEY')
+
+# # Check if the environmental variable exists and retrieve its value
+# if secret_key:
+#     print(f"The SECRET_KEY is: {secret_key}")
+# else:
+#     print("SECRET_KEY is not set.")
+
+
+
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost',]
 
 
 # Application definition
@@ -40,19 +46,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_htmx',
     'django_htmx_refresh',
-    
+
     'client_relationship_manager',
     'agents',
-    
+
     'crispy_forms',
     'crispy_tailwind',
 ]
 
 # This setting is used by HtmxResponseMiddleware
 HTMX_APPS = [
-        'crm',
-        'agents',
-    ]
+    'crm',
+    'agents',
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -140,12 +146,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    BASE_DIR / "../static"
+]
+STATIC_ROOT = "static_root"
 
 AUTH_USER_MODEL = 'client_relationship_manager.User'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login'
 
+LOGOUT_REDIRECT = "/"
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -154,3 +165,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
 
 CRISPY_TEMPLATE_PACK = "tailwind"
+
+EMAIL_HOST = "smtp.zoho.com"
+EMAIL_HOST_USER = "info@carlhub.com"
+EMAIL_HOST_PASSWORD = "zp!8lCkv"
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+DEFAULT_FROM_EMAIL = "info@carlhub.com"

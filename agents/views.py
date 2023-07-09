@@ -1,4 +1,6 @@
 from typing import Any, Dict
+import random
+from django.core.mail import send_mail
 from django.db import models
 from django.db.models.query import QuerySet
 from django.forms.models import BaseModelForm
@@ -8,12 +10,13 @@ from django.views import generic
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from .mixins import OrganisorAndLoginRequiredMixin
 from agents.forms import AgentModelForm
 from client_relationship_manager.models import Agent
 
 
 # Create your views here.
-class AgentListView(LoginRequiredMixin,generic.ListView):
+class AgentListView(OrganisorAndLoginRequiredMixin,generic.ListView):
     template_name = "agent_list.html"
     context_object_name = "agents"
     
@@ -21,35 +24,74 @@ class AgentListView(LoginRequiredMixin,generic.ListView):
         return super().get_context_data(**kwargs)
     
     def get_queryset(self):
-        return Agent.objects.all()
+        user = self.request.user
+        queryset = Agent.objects.filter(organisation=user.userprofile)
+        return queryset
     
-class AgentCreateView(LoginRequiredMixin,generic.CreateView):
+class AgentCreateView(OrganisorAndLoginRequiredMixin,generic.CreateView):
     template_name = "agent_create.html"
     form_class = AgentModelForm
     
     def form_valid(self, form: BaseModelForm) -> HttpResponse:
-        user = self.request.user
-        agent = form.save(commit=False)
-        agent.organisation = user.userprofile
-        agent.save()
+        # first we create a user agent then we create the actual agent 
+        user = form.save(commit=False)
+        user.is_agent = True
+        user.is_organisor = False
+        user.set_password(f'{random.randint(100,2000000)}')
+        user.save()
+        # create actual agent 
+        agent = Agent.objects.create(
+            user = user,
+            organisation = self.request.user.userprofile
+        )
+        # send an email to the new agent 
+        send_mail(
+            subject = "You are invited to be an Agent",
+            message = "You were added to be an agent in Simple crm Please login to start working",
+            from_email = "admin@carlhub.com",
+            recipient_list= [user.email]
+            
+        )
         return super(AgentCreateView,self).form_valid(form)
     
     def get_success_url(self) -> str:
         messages.success(self.request,"Agent Created")
         return reverse_lazy('agents:agent')
     
-class AgentDetailView(LoginRequiredMixin,generic.DetailView):
+class AgentDetailView(OrganisorAndLoginRequiredMixin,generic.DetailView):
     template_name ="agent_detail.html"
     context_object_name = "agent"
     
     def get_queryset(self) -> QuerySet[Any]:
-        queryset = Agent.objects.all()
-        return queryset
+       user = self.request.user
+       queryset = Agent.objects.filter(organisation=user.userprofile)
+       return queryset
     
-class AgentUpdateView(LoginRequiredMixin,generic.CreateView):
+class AgentUpdateView(OrganisorAndLoginRequiredMixin,generic.UpdateView):
     template_name = "agent_update.html"
     form_class = AgentModelForm  
+    # context_object_name = "agent"
+
+    
+    def get_queryset(self) -> QuerySet[Any]:
+       user = self.request.user
+       queryset = Agent.objects.filter(organisation=user.userprofile)
+       return queryset
     
     def get_success_url(self) -> str:
         messages.success(self.request,"Agent Updated")
         return reverse_lazy('agents:agent')
+    
+class AgentDeleteView(OrganisorAndLoginRequiredMixin,generic.DeleteView):
+    template_name ="agent_delete.html"
+    context_object_name = "agent"
+    
+    def get_queryset(self) -> QuerySet[Any]:
+       user = self.request.user
+       queryset = Agent.objects.filter(organisation=user.userprofile)
+       return queryset
+        
+    def get_success_url(self) -> str:
+        messages.success(self.request,"Agent Updated")
+        return reverse_lazy('agents:agent')
+    

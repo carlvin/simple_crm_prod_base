@@ -32,7 +32,8 @@ class HomeView(LoginRequiredMixin,ListView):
         return super().get_context_data(**kwargs)
     
     def get_queryset(self) -> QuerySet[Any]:
-        queryset = Client.objects.all()
+        user = self.request.user
+        queryset = Client.objects.filter(organisation=user.userprofile)
         return queryset
 
 class SearchResultView(LoginRequiredMixin,ListView):
@@ -41,6 +42,7 @@ class SearchResultView(LoginRequiredMixin,ListView):
     context_object_name = "results"
 
     def get_queryset(self) :
+        user=self.request.user
 
         query = self.request.GET.get("q") or None
 
@@ -50,7 +52,7 @@ class SearchResultView(LoginRequiredMixin,ListView):
                 | Q(pk__icontains=query)
                 | Q(phone__icontains=query)
                 | Q(address__icontains=query)
-                | Q(email__icontains=query)
+                | Q(email__icontains=query),organisation =self.userprofile
             )
         else:
             results = Client.objects.all()
