@@ -25,8 +25,8 @@ DEBUG = env('DEBUG')
 SECRET_KEY = env('SECRET_KEY')
 
 # # Check if the environmental variable exists and retrieve its value
-# if secret_key:
-#     print(f"The SECRET_KEY is: {secret_key}")
+# if SECRET_KEY:
+#     print(f"The SECRET_KEY is: {SECRET_KEY}")
 # else:
 #     print("SECRET_KEY is not set.")
 
@@ -109,16 +109,6 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env('DB_NAME'),
-        'USER': env('DB_USER'),
-        'PASSWORD': env('DB_PASS'),
-        'HOST': '127.0.0.1',
-        'PORT':"",
-    }
-}
 
 STORAGES = {
     # ...
@@ -208,10 +198,10 @@ if not DEBUG:
     SECURE_HSTS_PRELOAD = True
     X_FRAME_OPTIONS = "DENY"
     
-    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    EMAIL_HOST = env('EMAIL_HOST')
-    EMAIL_HOST_USER = env('EMAIL_HOST_USER')
-    EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-    EMAIL_USE_TLS = env('EMAIL_USE_TLS')
-    EMAIL_PORT = env('EMAIL_PORT')
-    DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
+    # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    # EMAIL_HOST = env('EMAIL_HOST')
+    # EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+    # EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+    # EMAIL_USE_TLS = env('EMAIL_USE_TLS')
+    # EMAIL_PORT = env('EMAIL_PORT')
+    # DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
