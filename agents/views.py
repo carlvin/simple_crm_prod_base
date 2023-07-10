@@ -20,18 +20,26 @@ class AgentListView(OrganisorAndLoginRequiredMixin,generic.ListView):
     template_name = "agent_list.html"
     context_object_name = "agents"
     
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        return super().get_context_data(**kwargs)
+    #for adding context to the view
+    
+    # def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+    #     return super().get_context_data(**kwargs)
     
     def get_queryset(self):
+        #get the logged in user
         user = self.request.user
+        #get data based on agents organisation, which is logged in
+        #users userprofile
         queryset = Agent.objects.filter(organisation=user.userprofile)
         return queryset
+    
     
 class AgentCreateView(OrganisorAndLoginRequiredMixin,generic.CreateView):
     template_name = "agent_create.html"
     form_class = AgentModelForm
     
+    #we implement form valid to set user as an agent and not organisor then
+    #we create the the agent programatically
     def form_valid(self, form: BaseModelForm) -> HttpResponse:
         # first we create a user agent then we create the actual agent 
         user = form.save(commit=False)
@@ -42,13 +50,13 @@ class AgentCreateView(OrganisorAndLoginRequiredMixin,generic.CreateView):
         # create actual agent 
         agent = Agent.objects.create(
             user = user,
-            organisation = self.request.user.userprofile
+            organisation = self.request.user.userprofile #get logged on user userprofile
         )
         # send an email to the new agent 
         send_mail(
             subject = "You are invited to be an Agent",
             message = "You were added to be an agent in Simple crm Please login to start working",
-            from_email = "admin@carlhub.com",
+            from_email = "info@carlhub.com",
             recipient_list= [user.email]
             
         )
@@ -92,6 +100,6 @@ class AgentDeleteView(OrganisorAndLoginRequiredMixin,generic.DeleteView):
        return queryset
         
     def get_success_url(self) -> str:
-        messages.success(self.request,"Agent Updated")
+        messages.success(self.request,"Agent Deleted")
         return reverse_lazy('agents:agent')
     

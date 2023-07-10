@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env(
     DEBUG=(bool, False)
 )
-
+# Custom variable to read enviroment variables in development
 READ_DOT_ENV_FILE = env.bool("READ_DOT_ENV_FILE",default=False)
 
 if READ_DOT_ENV_FILE:
@@ -44,14 +44,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    # Third party apps
     'django_htmx',
     'django_htmx_refresh',
+    'crispy_forms',
+    'crispy_tailwind',
 
+    # Local apps
     'client_relationship_manager',
     'agents',
 
-    'crispy_forms',
-    'crispy_tailwind',
+    
 ]
 
 # This setting is used by HtmxResponseMiddleware
@@ -95,6 +99,7 @@ TEMPLATES = [
     },
 ]
 
+#modified to the new config folder
 WSGI_APPLICATION = 'config.wsgi.application'
 
 
@@ -103,8 +108,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / '../db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASS'),
+        'HOST': '127.0.0.1',
+        'PORT':"",
     }
 }
 
@@ -146,29 +155,53 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+# Modified location based on config folder
 STATICFILES_DIRS = [
     BASE_DIR / "../static"
 ]
+MEDIA_URL = '/media/'
+MEDIA_ROOT = "media_root"
 STATIC_ROOT = "static_root"
 
 AUTH_USER_MODEL = 'client_relationship_manager.User'
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login'
+LOGOUT_REDIRECT_URL = "/"
 
-LOGOUT_REDIRECT = "/"
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
-
 CRISPY_TEMPLATE_PACK = "tailwind"
 
+#test for development purposes
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = "smtp.zoho.com"
 EMAIL_HOST_USER = "info@carlhub.com"
 EMAIL_HOST_PASSWORD = "zp!8lCkv"
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = "info@carlhub.com"
+
+
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_HSTS_SECONDS = 31536000  # 1 year
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    X_FRAME_OPTIONS = "DENY"
+    
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = env('EMAIL_HOST')
+    EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+    EMAIL_USE_TLS = env('EMAIL_USE_TLS')
+    EMAIL_PORT = env('EMAIL_PORT')
+    DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
