@@ -2,14 +2,14 @@ import os
 from pathlib import Path
 import environ
 
-
+env = environ.Env(
+    DEBUG=(bool, False)
+)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-env = environ.Env(
-    DEBUG=(bool, False)
-)
+
 # Custom variable to read enviroment variables in development
 READ_DOT_ENV_FILE = env.bool("READ_DOT_ENV_FILE",default=False)
 
@@ -66,6 +66,7 @@ HTMX_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -117,6 +118,12 @@ DATABASES = {
     }
 }
 
+STORAGES = {
+    # ...
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -184,6 +191,7 @@ EMAIL_HOST_PASSWORD = "zp!8lCkv"
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = "info@carlhub.com"
+
 
 
 if not DEBUG:

@@ -55,7 +55,7 @@ class AgentCreateView(OrganisorAndLoginRequiredMixin,generic.CreateView):
         # send an email to the new agent 
         send_mail(
             subject = "You are invited to be an Agent",
-            message = "You were added to be an agent in Simple crm Please login to start working",
+            message = "You were added to be an agent in Simple CRM. Please visit <a href='https://www.carlhub.com'>www.carlhub.com</a> to start working.",
             from_email = "info@carlhub.com",
             recipient_list= [user.email]
             
